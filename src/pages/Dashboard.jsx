@@ -1,11 +1,11 @@
 import React from 'react'
 
-export default function Dashboard({ user }) {
+export default function Dashboard({ user, onNavigate }) {
   const stats = [
-    { label: 'Today Trips', value: '87', icon: '🚕', color: 'from-blue-500 to-blue-600', trend: '+12%' },
-    { label: 'Active Drivers', value: '42', icon: '👨‍💼', color: 'from-green-500 to-green-600', trend: '+5%' },
-    { label: 'Revenue Today', value: '₹1,25,600', icon: '💰', color: 'from-amber-500 to-amber-600', trend: '+23%' },
-    { label: 'Pending Invoices', value: '12', icon: '📋', color: 'from-red-500 to-red-600', trend: '-8%' }
+    { label: 'Today Trips', value: '87', icon: '🚕', color: 'from-blue-500 to-blue-600', trend: '+12%', action: 'activetrips' },
+    { label: 'Active Drivers', value: '42', icon: '👨‍💼', color: 'from-green-500 to-green-600', trend: '+5%', action: 'drivers' },
+    { label: 'Revenue Today', value: '₹1,25,600', icon: '💰', color: 'from-amber-500 to-amber-600', trend: '+23%', action: 'activetrips' },
+    { label: 'Pending Invoices', value: '12', icon: '📋', color: 'from-red-500 to-red-600', trend: '-8%', action: 'activetrips' }
   ]
 
   const recentTrips = [
@@ -21,6 +21,12 @@ export default function Dashboard({ user }) {
     { name: 'Prakash R', trips: 18, rating: '4.7⭐', earnings: '₹6,890' }
   ]
 
+  const handleStatClick = (action) => {
+    if (onNavigate) {
+      onNavigate(action)
+    }
+  }
+
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
       <div className="flex-1 overflow-y-auto overflow-x-hidden bg-gray-50">
@@ -33,12 +39,13 @@ export default function Dashboard({ user }) {
             <p className="text-gray-600 text-xs sm:text-sm md:text-base">Fleet Operations Overview & Analytics</p>
           </div>
 
-          {/* Stats Grid - Auto adjusts columns */}
+          {/* Stats Grid - CLICKABLE Cards */}
           <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
             {stats.map((stat) => (
-              <div
+              <button
                 key={stat.label}
-                className="bg-white rounded-lg shadow-sm hover:shadow-md p-4 sm:p-5 md:p-6 transition-all duration-300 cursor-pointer group"
+                onClick={() => handleStatClick(stat.action)}
+                className="bg-white rounded-lg shadow-sm hover:shadow-lg hover:scale-105 p-4 sm:p-5 md:p-6 transition-all duration-300 cursor-pointer group text-left border border-transparent hover:border-cyan-200 active:scale-95"
               >
                 <div className={`w-10 sm:w-12 h-10 sm:h-12 bg-gradient-to-br ${stat.color} rounded-lg flex items-center justify-center text-lg sm:text-xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform`}>
                   {stat.icon}
@@ -48,7 +55,10 @@ export default function Dashboard({ user }) {
                 <p className={`text-xs sm:text-sm font-semibold ${stat.trend.includes('+') ? 'text-green-600' : 'text-red-600'}`}>
                   {stat.trend}
                 </p>
-              </div>
+                <p className="text-xs text-cyan-600 font-semibold mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Click to view details →
+                </p>
+              </button>
             ))}
           </div>
 
@@ -72,7 +82,7 @@ export default function Dashboard({ user }) {
                   </thead>
                   <tbody>
                     {recentTrips.map((trip) => (
-                      <tr key={trip.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                      <tr key={trip.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer">
                         <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-mono text-cyan-600 font-semibold text-xs sm:text-sm">{trip.id}</td>
                         <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 text-gray-900 text-xs sm:text-sm hidden sm:table-cell">{trip.company}</td>
                         <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 text-gray-900 text-xs sm:text-sm hidden md:table-cell">{trip.driver}</td>
@@ -102,7 +112,8 @@ export default function Dashboard({ user }) {
                 {topDrivers.map((driver, idx) => (
                   <div
                     key={idx}
-                    className="p-3 sm:p-4 bg-gray-50 rounded-lg hover:bg-cyan-50 transition-all cursor-pointer"
+                    onClick={() => handleStatClick('drivers')}
+                    className="p-3 sm:p-4 bg-gray-50 rounded-lg hover:bg-cyan-50 hover:shadow-md transition-all cursor-pointer"
                   >
                     <div className="flex justify-between items-start gap-2 mb-2">
                       <div className="min-w-0 flex-1">
