@@ -4,61 +4,92 @@ export default function LoginPage({ onLogin }) {
   const [email, setEmail] = useState('admin@travels.com')
   const [password, setPassword] = useState('123456')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (email === 'admin@travels.com' && password === '123456') {
-      onLogin({ name: 'Admin', email, role: 'Admin' })
-    } else {
-      setError('Invalid credentials. Use admin@travels.com / 123456')
-    }
+    setError('')
+    setLoading(true)
+
+    setTimeout(() => {
+      if (email && password) {
+        const name = email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1)
+        onLogin({ name, email })
+      } else {
+        setError('Please fill in all fields')
+      }
+      setLoading(false)
+    }, 500)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-blue-600 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h1 className="text-3xl font-bold text-center mb-2 text-blue-900">TMT Travels</h1>
-        <p className="text-center text-gray-600 mb-6">Fleet Management System</p>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="admin@travels.com"
-            />
+    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-teal-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Card */}
+        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-cyan-500 to-teal-600 px-8 py-12 text-center">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <span className="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-teal-600 bg-clip-text text-transparent">T</span>
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-2">TMT Travels</h1>
+            <p className="text-cyan-100">Fleet Management System</p>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="123456"
-            />
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="p-8 space-y-6">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
+
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition"
+                placeholder="admin@travels.com"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition"
+                placeholder="••••••"
+              />
+            </div>
+
+            {/* Login Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-semibold py-3 rounded-lg hover:shadow-lg transition-all duration-200 disabled:opacity-50"
+            >
+              {loading ? 'Signing in...' : 'Sign In'}
+            </button>
+          </form>
+
+          {/* Demo Info */}
+          <div className="bg-gray-50 border-t border-gray-200 px-8 py-6">
+            <p className="text-sm font-semibold text-gray-700 mb-3">Demo Credentials:</p>
+            <div className="text-sm text-gray-600 space-y-1">
+              <p><span className="font-medium">Email:</span> admin@travels.com</p>
+              <p><span className="font-medium">Password:</span> 123456</p>
+            </div>
           </div>
-
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold p-3 rounded transition"
-          >
-            Login
-          </button>
-        </form>
-
-        <div className="mt-6 p-4 bg-blue-50 rounded border border-blue-200">
-          <p className="text-sm text-gray-700">
-            <strong>Demo Credentials:</strong>
-          </p>
-          <p className="text-sm text-gray-600">Email: admin@travels.com</p>
-          <p className="text-sm text-gray-600">Password: 123456</p>
         </div>
       </div>
     </div>
