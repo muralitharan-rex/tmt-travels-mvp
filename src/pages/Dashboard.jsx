@@ -2,16 +2,17 @@ import React from 'react'
 
 const styles = {
   container: {
-    padding: '32px',
+    padding: '24px',
     minHeight: '100vh',
     background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
-    color: 'white'
+    color: 'white',
+    overflowX: 'hidden'
   },
   header: {
     marginBottom: '32px'
   },
   title: {
-    fontSize: '36px',
+    fontSize: 'clamp(28px, 5vw, 36px)',
     fontWeight: 'bold',
     margin: '0 0 8px 0',
     background: 'linear-gradient(90deg, #06b6d4 0%, #14b8a6 100%)',
@@ -26,9 +27,18 @@ const styles = {
   },
   statsGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '24px',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+    gap: '16px',
     marginBottom: '32px'
+  },
+  statCard: {
+    background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+    padding: '20px',
+    borderRadius: '12px',
+    border: '1px solid #334155',
+    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)',
+    transition: 'all 0.3s ease',
+    cursor: 'pointer'
   },
   iconBox: (color) => ({
     background: color,
@@ -41,44 +51,48 @@ const styles = {
     justifyContent: 'center',
     fontSize: '28px',
     marginBottom: '16px',
-    boxShadow: `0 10px 20px -5px ${color}40`
+    boxShadow: `0 10px 20px -5px ${color}40`,
+    transition: 'transform 0.3s ease'
   }),
   statLabel: {
     fontSize: '13px',
     color: '#94a3b8',
-    marginBottom: '4px',
+    marginBottom: '8px',
     fontWeight: '600'
   },
   statValue: {
-    fontSize: '32px',
+    fontSize: 'clamp(24px, 4vw, 32px)',
     fontWeight: 'bold',
     color: 'white',
-    marginBottom: '4px'
+    marginBottom: '8px'
   },
   twoColumn: {
     display: 'grid',
-    gridTemplateColumns: '2fr 1fr',
-    gap: '24px',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+    gap: '16px',
     marginBottom: '24px'
   },
   card: {
     background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-    padding: '24px',
+    padding: '20px',
     borderRadius: '12px',
     border: '1px solid #334155',
-    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3)'
+    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)',
+    overflow: 'auto',
+    scrollbarWidth: 'thin'
   },
   cardTitle: {
-    fontSize: '18px',
+    fontSize: '16px',
     fontWeight: 'bold',
-    marginBottom: '20px',
+    marginBottom: '16px',
     display: 'flex',
     alignItems: 'center',
     gap: '8px'
   },
   table: {
     width: '100%',
-    borderCollapse: 'collapse'
+    borderCollapse: 'collapse',
+    fontSize: '13px'
   },
   tableHeader: {
     borderBottom: '1px solid #334155',
@@ -86,7 +100,7 @@ const styles = {
   },
   tableHeaderCell: {
     padding: '12px',
-    fontSize: '13px',
+    fontSize: '12px',
     fontWeight: '600',
     color: '#cbd5e1'
   },
@@ -112,7 +126,10 @@ const styles = {
     border: '1px solid rgba(217, 119, 6, 0.3)',
     padding: '16px',
     borderRadius: '12px',
-    color: '#fed7aa'
+    color: '#fed7aa',
+    display: 'flex',
+    alignItems: 'start',
+    gap: '12px'
   }
 }
 
@@ -148,20 +165,30 @@ export default function Dashboard({ user }) {
       {/* Stats Cards */}
       <div style={styles.statsGrid}>
         {stats.map((stat) => (
-          <div key={stat.label} style={{
-            ...styles.card,
-            cursor: 'pointer'
-          }} onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-4px)'
-            e.currentTarget.style.borderColor = '#06b6d4'
-          }} onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)'
-            e.currentTarget.style.borderColor = '#334155'
-          }}>
+          <div
+            key={stat.label}
+            style={styles.statCard}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px)'
+              e.currentTarget.style.borderColor = '#06b6d4'
+              e.currentTarget.style.boxShadow = '0 20px 35px -5px rgba(6, 182, 212, 0.2)'
+              const iconBox = e.currentTarget.querySelector('div')
+              if (iconBox) iconBox.style.transform = 'scale(1.1)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.borderColor = '#334155'
+              e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.3)'
+              const iconBox = e.currentTarget.querySelector('div')
+              if (iconBox) iconBox.style.transform = 'scale(1)'
+            }}
+          >
             <div style={styles.iconBox(stat.color)}>{stat.icon}</div>
             <div style={styles.statLabel}>{stat.label}</div>
             <div style={styles.statValue}>{stat.value}</div>
-            <div style={{ fontSize: '12px', color: stat.trend.includes('+') ? '#86efac' : '#f87171', fontWeight: '600' }}>{stat.trend}</div>
+            <div style={{ fontSize: '12px', color: stat.trend.includes('+') ? '#86efac' : '#f87171', fontWeight: '600' }}>
+              {stat.trend}
+            </div>
           </div>
         ))}
       </div>
@@ -171,39 +198,50 @@ export default function Dashboard({ user }) {
         {/* Recent Trips */}
         <div style={styles.card}>
           <div style={styles.cardTitle}>📍 Recent Trips</div>
-          <table style={styles.table}>
-            <thead style={styles.tableHeader}>
-              <tr>
-                <th style={styles.tableHeaderCell}>Trip ID</th>
-                <th style={styles.tableHeaderCell}>Company</th>
-                <th style={styles.tableHeaderCell}>Driver</th>
-                <th style={styles.tableHeaderCell}>Status</th>
-                <th style={styles.tableHeaderCell}>Fare</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentTrips.map((trip) => (
-                <tr key={trip.id} style={styles.tableRow} onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(51, 65, 85, 0.2)'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
-                  <td style={{...styles.tableCell, color: '#06b6d4', fontFamily: 'monospace', fontWeight: 'bold'}}>{trip.id}</td>
-                  <td style={styles.tableCell}>{trip.company}</td>
-                  <td style={styles.tableCell}>{trip.driver}</td>
-                  <td style={styles.tableCell}>
-                    <span style={{
-                      display: 'inline-block',
-                      padding: '4px 12px',
-                      borderRadius: '20px',
-                      fontSize: '12px',
-                      fontWeight: '600',
-                      background: trip.status === 'Active' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(100, 116, 139, 0.15)',
-                      color: trip.status === 'Active' ? '#86efac' : '#cbd5e1',
-                      border: trip.status === 'Active' ? '1px solid #22c55e' : '1px solid #64748b'
-                    }}>{trip.status}</span>
-                  </td>
-                  <td style={{...styles.tableCell, fontWeight: 'bold'}}>{trip.fare}</td>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={styles.table}>
+              <thead style={styles.tableHeader}>
+                <tr>
+                  <th style={styles.tableHeaderCell}>Trip ID</th>
+                  <th style={styles.tableHeaderCell}>Company</th>
+                  <th style={styles.tableHeaderCell}>Driver</th>
+                  <th style={styles.tableHeaderCell}>Status</th>
+                  <th style={styles.tableHeaderCell}>Fare</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {recentTrips.map((trip) => (
+                  <tr
+                    key={trip.id}
+                    style={styles.tableRow}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(51, 65, 85, 0.2)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                  >
+                    <td style={{...styles.tableCell, color: '#06b6d4', fontFamily: 'monospace', fontWeight: 'bold'}}>
+                      {trip.id}
+                    </td>
+                    <td style={styles.tableCell}>{trip.company}</td>
+                    <td style={styles.tableCell}>{trip.driver}</td>
+                    <td style={styles.tableCell}>
+                      <span style={{
+                        display: 'inline-block',
+                        padding: '4px 12px',
+                        borderRadius: '20px',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        background: trip.status === 'Active' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(100, 116, 139, 0.15)',
+                        color: trip.status === 'Active' ? '#86efac' : '#cbd5e1',
+                        border: trip.status === 'Active' ? '1px solid #22c55e' : '1px solid #64748b'
+                      }}>
+                        {trip.status}
+                      </span>
+                    </td>
+                    <td style={{...styles.tableCell, fontWeight: 'bold'}}>{trip.fare}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Top Drivers */}
@@ -211,13 +249,18 @@ export default function Dashboard({ user }) {
           <div style={styles.cardTitle}>👑 Top Drivers</div>
           <div>
             {topDrivers.map((driver, idx) => (
-              <div key={idx} style={styles.driverCard} onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#06b6d4'
-                e.currentTarget.style.background = 'rgba(6, 182, 212, 0.05)'
-              }} onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#334155'
-                e.currentTarget.style.background = 'rgba(51, 65, 85, 0.3)'
-              }}>
+              <div
+                key={idx}
+                style={styles.driverCard}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#06b6d4'
+                  e.currentTarget.style.background = 'rgba(6, 182, 212, 0.05)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#334155'
+                  e.currentTarget.style.background = 'rgba(51, 65, 85, 0.3)'
+                }}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '8px' }}>
                   <div>
                     <div style={{ fontWeight: '600', color: 'white' }}>{driver.name}</div>
@@ -234,13 +277,19 @@ export default function Dashboard({ user }) {
 
       {/* Alert */}
       <div style={styles.alertBox}>
-        <div style={{ display: 'flex', alignItems: 'start', gap: '12px' }}>
-          <span style={{ fontSize: '18px' }}>⚠️</span>
-          <div>
-            <strong>Maintenance Alert:</strong> 3 vehicles due for maintenance in next 7 days. Schedule now to avoid downtime.
-          </div>
+        <span style={{ fontSize: '18px' }}>⚠️</span>
+        <div>
+          <strong>Maintenance Alert:</strong> 3 vehicles due for maintenance in next 7 days. Schedule now to avoid downtime.
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          div[style*="gridTemplateColumns"] {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }
