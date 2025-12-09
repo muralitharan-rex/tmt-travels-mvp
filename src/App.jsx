@@ -95,16 +95,10 @@ export default function App() {
         </button>
       </div>
 
-      {/* Mobile sidebar overlay (always uses sidebarOpen on < md) */}
+      {/* Mobile sidebar overlay (sidebar slides from LEFT) */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-40 flex md:hidden">
-          {/* Backdrop */}
-          <div
-            className="flex-1 bg-black/40"
-            onClick={() => setSidebarOpen(false)}
-          />
-
-          {/* Sidebar panel */}
+          {/* Sidebar panel LEFT */}
           <div className="w-64 bg-white border-r border-gray-200 shadow-xl flex flex-col overflow-y-auto">
             {/* Logo + Close */}
             <div className="flex items-center justify-between gap-3 p-4 border-b border-gray-200">
@@ -151,6 +145,12 @@ export default function App() {
               🚪 Logout
             </button>
           </div>
+
+          {/* Backdrop on RIGHT */}
+          <div
+            className="flex-1 bg-black/40"
+            onClick={() => setSidebarOpen(false)}
+          />
         </div>
       )}
 
@@ -168,10 +168,10 @@ export default function App() {
               {sidebarOpen ? '✕' : '☰'}
             </button>
 
-            {/* Home button */}
+            {/* Home button – visible on mobile & desktop */}
             <button
               onClick={goHome}
-              className="hidden sm:inline-flex items-center gap-1 px-3 py-2 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-lg text-xs font-semibold hover:bg-cyan-100 transition-colors flex-shrink-0"
+              className="inline-flex items-center gap-1 px-3 py-2 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-lg text-xs font-semibold hover:bg-cyan-100 transition-colors flex-shrink-0"
             >
               🏠 Home
             </button>
