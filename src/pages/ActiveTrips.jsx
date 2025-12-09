@@ -1,105 +1,130 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function ActiveTrips() {
-  const activeTrips = [
-    {
-      id: 'TRP-10021',
-      company: 'Zoho Technologies',
-      employee: 'Priya S',
-      driver: 'Ramesh',
-      vehicle: 'TN59 AB 2231',
-      status: 'Trip Started',
-      pickup: 'KK Nagar',
-      drop: 'SPIC IT Park',
-      gps: '9.9362, 78.1234',
-      eta: '12 mins',
-      fare: '₹320'
-    },
-    {
-      id: 'TRP-10020',
-      company: 'HCL Technologies',
-      employee: 'Sangeetha',
-      driver: 'Karthik',
-      vehicle: 'TN59 AA 5544',
-      status: 'Awaiting Pickup',
-      pickup: 'Anna Nagar',
-      drop: 'ELCOT',
-      gps: '9.9250, 78.1150',
-      eta: '5 mins',
-      fare: '₹280'
+  const [trips, setTrips] = useState([
+    { id: 'TRP-10020', company: 'HCL', employee: 'Karthik M', driver: 'Karthik', vehicle: 'TN59 AB 2231', pickup: 'KK Nagar', dropoff: 'SPIC IT Park', status: 'Active', startTime: '10:30 AM', eta: '10:45 AM', fare: '₹280' },
+    { id: 'TRP-10022', company: 'TCS', employee: 'Suresh K', driver: 'Suresh', vehicle: 'TN59 AB 2232', pickup: 'Madurai Central', dropoff: 'Infosys Campus', status: 'Active', startTime: '10:15 AM', eta: '11:00 AM', fare: '₹450' },
+    { id: 'TRP-10023', company: 'Zoho', employee: 'Priya S', driver: 'Ramesh', vehicle: 'TN59 AB 2233', pickup: 'Airport', dropoff: 'Hotel Residency', status: 'In Transit', startTime: '09:45 AM', eta: '10:30 AM', fare: '₹650' }
+  ])
+
+  const handleCompleteTrip = (id) => {
+    setTrips(trips.filter(trip => trip.id !== id))
+    alert('Trip completed successfully!')
+  }
+
+  const getStatusColor = (status) => {
+    switch(status) {
+      case 'Active': return 'bg-blue-100 text-blue-700'
+      case 'In Transit': return 'bg-yellow-100 text-yellow-700'
+      default: return 'bg-gray-100 text-gray-700'
     }
-  ]
+  }
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">📍 Active Trips</h1>
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center gap-3">
+          📍 Active Trips
+        </h1>
+        <p className="text-gray-600">Current ongoing trips and routes</p>
+      </div>
 
+      {/* Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <p className="text-gray-600 text-sm font-medium mb-1">Active Now</p>
+          <p className="text-3xl font-bold text-blue-600">{trips.length}</p>
+        </div>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <p className="text-gray-600 text-sm font-medium mb-1">Total Revenue</p>
+          <p className="text-3xl font-bold text-green-600">₹1,380</p>
+        </div>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <p className="text-gray-600 text-sm font-medium mb-1">Avg. Duration</p>
+          <p className="text-3xl font-bold text-purple-600">32 mins</p>
+        </div>
+      </div>
+
+      {/* Trips List */}
       <div className="space-y-6">
-        {activeTrips.map((trip) => (
-          <div key={trip.id} className="bg-white p-6 rounded-lg shadow">
-            <div className="flex justify-between items-start mb-4">
+        {trips.map((trip) => (
+          <div key={trip.id} className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all">
+            {/* Header */}
+            <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="text-xl font-bold text-gray-800">{trip.id}</h2>
-                <p className="text-gray-600">{trip.company}</p>
+                <h3 className="text-lg font-bold text-gray-900">{trip.id}</h3>
+                <p className="text-sm text-gray-600">{trip.company} • {trip.employee}</p>
               </div>
-              <span className="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-bold">
+              <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(trip.status)}`}>
                 {trip.status}
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+            {/* Details Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+              {/* Driver */}
               <div>
-                <p className="text-sm text-gray-600">Driver</p>
-                <p className="font-bold text-gray-800">{trip.driver}</p>
+                <p className="text-xs text-gray-500 font-semibold mb-1">Driver</p>
+                <p className="text-sm font-medium text-gray-900">{trip.driver}</p>
               </div>
+
+              {/* Vehicle */}
               <div>
-                <p className="text-sm text-gray-600">Vehicle</p>
-                <p className="font-mono font-bold text-gray-800">{trip.vehicle}</p>
+                <p className="text-xs text-gray-500 font-semibold mb-1">Vehicle</p>
+                <p className="text-sm font-medium text-gray-900">{trip.vehicle}</p>
               </div>
+
+              {/* Time */}
               <div>
-                <p className="text-sm text-gray-600">Employee</p>
-                <p className="font-bold text-gray-800">{trip.employee}</p>
+                <p className="text-xs text-gray-500 font-semibold mb-1">Start Time</p>
+                <p className="text-sm font-medium text-gray-900">{trip.startTime}</p>
               </div>
+
+              {/* ETA */}
               <div>
-                <p className="text-sm text-gray-600">ETA</p>
-                <p className="font-bold text-green-600">{trip.eta}</p>
+                <p className="text-xs text-gray-500 font-semibold mb-1">ETA</p>
+                <p className="text-sm font-medium text-gray-900">{trip.eta}</p>
               </div>
             </div>
 
-            <div className="bg-gray-50 p-4 rounded mb-4">
-              <div className="flex justify-between mb-2">
-                <div>
-                  <p className="text-xs text-gray-600">Pickup</p>
-                  <p className="font-bold">{trip.pickup}</p>
+            {/* Route */}
+            <div className="bg-gray-50 p-4 rounded-lg mb-6">
+              <div className="flex items-center gap-4">
+                <div className="flex-1">
+                  <p className="text-xs text-gray-500 font-semibold mb-1">Pickup</p>
+                  <p className="text-sm font-medium text-gray-900">📍 {trip.pickup}</p>
                 </div>
-                <div className="text-center">
-                  <p className="text-2xl">→</p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-600">Drop</p>
-                  <p className="font-bold">{trip.drop}</p>
+                <div className="text-2xl text-gray-400">→</div>
+                <div className="flex-1">
+                  <p className="text-xs text-gray-500 font-semibold mb-1">Dropoff</p>
+                  <p className="text-sm font-medium text-gray-900">🎯 {trip.dropoff}</p>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 text-sm">
+            {/* Footer */}
+            <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-600">GPS</p>
-                <p className="font-mono text-xs">{trip.gps}</p>
+                <p className="text-xs text-gray-500 font-semibold mb-1">Fare</p>
+                <p className="text-2xl font-bold text-cyan-600">{trip.fare}</p>
               </div>
-              <div>
-                <p className="text-gray-600">Fare</p>
-                <p className="font-bold text-lg">{trip.fare}</p>
-              </div>
-              <div className="text-right">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-xs">
-                  📞 Call Driver
-                </button>
-              </div>
+              <button
+                onClick={() => handleCompleteTrip(trip.id)}
+                className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
+              >
+                Complete Trip ✓
+              </button>
             </div>
           </div>
         ))}
       </div>
+
+      {trips.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg">No active trips right now</p>
+        </div>
+      )}
     </div>
   )
 }
