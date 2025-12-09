@@ -6,123 +6,6 @@ import ActiveTrips from './pages/ActiveTrips'
 import DriverList from './pages/DriverList'
 import VehicleList from './pages/VehicleList'
 
-const styles = {
-  container: {
-    display: 'flex',
-    height: '100vh',
-    background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    overflow: 'hidden'
-  },
-  sidebar: (isOpen) => ({
-    width: isOpen ? '280px' : '80px',
-    background: 'linear-gradient(180deg, #020617 0%, #0f172a 100%)',
-    color: 'white',
-    padding: '24px 12px',
-    borderRight: '1px solid #334155',
-    display: 'flex',
-    flexDirection: 'column',
-    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)',
-    overflowY: 'auto',
-    transition: 'width 0.3s ease',
-    scrollbarWidth: 'none',
-    msOverflowStyle: 'none'
-  }),
-  logo: (isOpen) => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: isOpen ? '12px' : '0',
-    marginBottom: '32px',
-    borderBottom: '1px solid #334155',
-    paddingBottom: '20px',
-    justifyContent: isOpen ? 'flex-start' : 'center',
-    transition: 'all 0.3s ease'
-  }),
-  logoBox: {
-    width: '40px',
-    height: '40px',
-    background: 'linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%)',
-    borderRadius: '8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    fontSize: '18px',
-    boxShadow: '0 10px 20px -5px rgba(6, 182, 212, 0.3)',
-    flexShrink: 0
-  },
-  logoText: (isOpen) => ({
-    fontSize: '20px',
-    fontWeight: 'bold',
-    background: 'linear-gradient(90deg, #06b6d4 0%, #14b8a6 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-    display: isOpen ? 'block' : 'none'
-  }),
-  mainContent: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden'
-  },
-  topBar: {
-    background: 'linear-gradient(90deg, #1e293b 0%, #0f172a 100%)',
-    color: 'white',
-    padding: '16px 32px',
-    borderBottom: '1px solid #334155',
-    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-  contentArea: {
-    flex: 1,
-    overflowY: 'auto',
-    overflowX: 'hidden',
-    background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
-    scrollbarWidth: 'thin',
-    scrollbarColor: '#334155 transparent'
-  },
-  nav: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '8px',
-    scrollbarWidth: 'none'
-  },
-  navButton: (isActive, isOpen) => ({
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    gap: isOpen ? '12px' : '0',
-    justifyContent: isOpen ? 'flex-start' : 'center',
-    padding: '12px 16px',
-    background: isActive ? 'linear-gradient(90deg, #06b6d4 0%, #14b8a6 100%)' : 'transparent',
-    color: isActive ? 'white' : '#cbd5e1',
-    border: 'none',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontSize: '14px',
-    fontWeight: isActive ? '600' : '500',
-    transition: 'all 0.3s ease',
-    boxShadow: isActive ? '0 10px 15px -3px rgba(6, 182, 212, 0.2)' : 'none'
-  }),
-  logoutBtn: {
-    width: '100%',
-    padding: '12px 16px',
-    background: 'rgba(239, 68, 68, 0.1)',
-    color: '#f87171',
-    border: '1px solid #ef4444',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontSize: '14px',
-    fontWeight: '600',
-    transition: 'all 0.3s ease',
-    marginTop: '16px'
-  }
-}
-
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [currentPage, setCurrentPage] = useState('login')
@@ -154,82 +37,73 @@ export default function App() {
   ]
 
   return (
-    <div style={styles.container}>
+    <div className="flex h-screen bg-gray-50 overflow-hidden">
       {/* Sidebar */}
-      <div style={styles.sidebar(sidebarOpen)}>
+      <div className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-gray-200 shadow-lg transition-all duration-300 flex flex-col overflow-y-auto`}>
         {/* Logo */}
-        <div style={styles.logo(sidebarOpen)}>
-          <div style={styles.logoBox}>T</div>
+        <div className="flex items-center gap-3 p-6 border-b border-gray-200">
+          <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-lg flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+            T
+          </div>
           {sidebarOpen && (
             <div>
-              <div style={styles.logoText(true)}>TMT</div>
-              <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>Fleet</div>
+              <div className="text-lg font-bold text-gray-900">TMT</div>
+              <div className="text-xs text-gray-500">Fleet Management</div>
             </div>
           )}
         </div>
 
         {/* Navigation */}
-        <nav style={styles.nav}>
+        <nav className="flex-1 px-3 py-4 space-y-2">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => setCurrentPage(item.id)}
-              style={styles.navButton(currentPage === item.id, sidebarOpen)}
-              onMouseEnter={(e) => {
-                if (currentPage !== item.id) {
-                  e.target.style.background = '#1e293b'
-                  e.target.style.color = 'white'
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (currentPage !== item.id) {
-                  e.target.style.background = 'transparent'
-                  e.target.style.color = '#cbd5e1'
-                }
-              }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                currentPage === item.id
+                  ? 'bg-gradient-to-r from-cyan-500 to-teal-600 text-white shadow-lg'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
               title={!sidebarOpen ? item.label : ''}
             >
-              <span style={{ fontSize: '18px' }}>{item.icon}</span>
-              {sidebarOpen && <span>{item.label}</span>}
+              <span className="text-lg flex-shrink-0">{item.icon}</span>
+              {sidebarOpen && <span className="font-medium">{item.label}</span>}
             </button>
           ))}
         </nav>
 
         {/* Logout */}
-        <button style={styles.logoutBtn} onClick={handleLogout} title="Logout">
+        <button
+          onClick={handleLogout}
+          className="w-full mx-3 mb-4 px-4 py-2 bg-red-50 text-red-600 border border-red-300 rounded-lg font-medium hover:bg-red-100 transition-colors"
+          title="Logout"
+        >
           🚪 {sidebarOpen && 'Logout'}
         </button>
       </div>
 
       {/* Main Content */}
-      <div style={styles.mainContent}>
+      <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
-        <div style={styles.topBar}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div className="bg-white border-b border-gray-200 px-8 py-4 shadow-sm flex items-center justify-between">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: 'white',
-                fontSize: '20px',
-                cursor: 'pointer',
-                padding: '8px'
-              }}
+              className="text-gray-700 hover:bg-gray-100 p-2 rounded-lg transition-colors"
             >
               {sidebarOpen ? '◀' : '▶'}
             </button>
-            <h2 style={{ margin: 0, fontSize: '18px', fontWeight: '600' }}>
+            <h2 className="text-lg font-semibold text-gray-900">
               Welcome, {user?.name} 👋
             </h2>
           </div>
-          <div style={{ fontSize: '13px', color: '#94a3b8' }}>
+          <div className="text-sm text-gray-500">
             {new Date().toLocaleDateString('en-IN', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
           </div>
         </div>
 
-        {/* Content */}
-        <div style={styles.contentArea}>
+        {/* Content Area */}
+        <div className="flex-1 overflow-y-auto bg-gray-50">
           {currentPage === 'dashboard' && <Dashboard user={user} />}
           {currentPage === 'newbooking' && <NewBooking />}
           {currentPage === 'activetrips' && <ActiveTrips />}
@@ -237,23 +111,6 @@ export default function App() {
           {currentPage === 'vehicles' && <VehicleList />}
         </div>
       </div>
-
-      <style>{`
-        div::-webkit-scrollbar {
-          width: 8px;
-          height: 8px;
-        }
-        div::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        div::-webkit-scrollbar-thumb {
-          background: #334155;
-          border-radius: 4px;
-        }
-        div::-webkit-scrollbar-thumb:hover {
-          background: #475569;
-        }
-      `}</style>
     </div>
   )
 }
