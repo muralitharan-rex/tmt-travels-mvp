@@ -22,9 +22,7 @@ export default function Dashboard({ user, onNavigate }) {
   ]
 
   const handleStatClick = (action) => {
-    if (onNavigate) {
-      onNavigate(action)
-    }
+    if (onNavigate) onNavigate(action)
   }
 
   return (
@@ -36,33 +34,43 @@ export default function Dashboard({ user, onNavigate }) {
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent mb-2">
               Dashboard
             </h1>
-            <p className="text-gray-600 text-xs sm:text-sm md:text-base">Fleet Operations Overview & Analytics</p>
+            <p className="text-gray-600 text-xs sm:text-sm md:text-base">
+              Fleet Operations Overview & Analytics
+            </p>
           </div>
 
-          {/* Stats Grid - CLICKABLE Cards */}
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+          {/* Stats Grid – mobile friendly */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {stats.map((stat) => (
               <button
                 key={stat.label}
                 onClick={() => handleStatClick(stat.action)}
-                className="bg-white rounded-lg shadow-sm hover:shadow-lg hover:scale-105 p-4 sm:p-5 md:p-6 transition-all duration-300 cursor-pointer group text-left border border-transparent hover:border-cyan-200 active:scale-95"
+                className="bg-white rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.02] p-4 sm:p-5 md:p-6 transition-all duration-300 cursor-pointer group text-left border border-transparent hover:border-cyan-200 active:scale-[0.98]"
               >
                 <div className={`w-10 sm:w-12 h-10 sm:h-12 bg-gradient-to-br ${stat.color} rounded-lg flex items-center justify-center text-lg sm:text-xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform`}>
                   {stat.icon}
                 </div>
-                <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">{stat.label}</p>
-                <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2 truncate">{stat.value}</p>
-                <p className={`text-xs sm:text-sm font-semibold ${stat.trend.includes('+') ? 'text-green-600' : 'text-red-600'}`}>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">
+                  {stat.label}
+                </p>
+                <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2 truncate">
+                  {stat.value}
+                </p>
+                <p
+                  className={`text-xs sm:text-sm font-semibold ${
+                    stat.trend.includes('+') ? 'text-green-600' : 'text-red-600'
+                  }`}
+                >
                   {stat.trend}
                 </p>
-                <p className="text-xs text-cyan-600 font-semibold mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  Click to view details →
+                <p className="text-[11px] text-cyan-600 font-semibold mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Tap to view details →
                 </p>
               </button>
             ))}
           </div>
 
-          {/* Two Column Layout - Responsive */}
+          {/* Two Column Layout – Responsive */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
             {/* Recent Trips */}
             <div className="lg:col-span-2 bg-white rounded-lg shadow-sm p-4 sm:p-5 md:p-6">
@@ -73,29 +81,52 @@ export default function Dashboard({ user, onNavigate }) {
                 <table className="w-full text-xs sm:text-sm">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="text-left py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-700">Trip ID</th>
-                      <th className="text-left py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-700 hidden sm:table-cell">Company</th>
-                      <th className="text-left py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-700 hidden md:table-cell">Driver</th>
-                      <th className="text-left py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-700">Status</th>
-                      <th className="text-left py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-700">Fare</th>
+                      <th className="text-left py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-700">
+                        Trip ID
+                      </th>
+                      <th className="text-left py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-700 hidden sm:table-cell">
+                        Company
+                      </th>
+                      <th className="text-left py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-700 hidden md:table-cell">
+                        Driver
+                      </th>
+                      <th className="text-left py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-700">
+                        Status
+                      </th>
+                      <th className="text-left py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-700">
+                        Fare
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {recentTrips.map((trip) => (
-                      <tr key={trip.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer">
-                        <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-mono text-cyan-600 font-semibold text-xs sm:text-sm">{trip.id}</td>
-                        <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 text-gray-900 text-xs sm:text-sm hidden sm:table-cell">{trip.company}</td>
-                        <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 text-gray-900 text-xs sm:text-sm hidden md:table-cell">{trip.driver}</td>
+                      <tr
+                        key={trip.id}
+                        className="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
+                      >
+                        <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-mono text-cyan-600 font-semibold text-xs sm:text-sm">
+                          {trip.id}
+                        </td>
+                        <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 text-gray-900 text-xs sm:text-sm hidden sm:table-cell">
+                          {trip.company}
+                        </td>
+                        <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 text-gray-900 text-xs sm:text-sm hidden md:table-cell">
+                          {trip.driver}
+                        </td>
                         <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4">
-                          <span className={`inline-block px-2 sm:px-3 py-1 rounded-full text-xs font-semibold ${
-                            trip.status === 'Active'
-                              ? 'bg-green-100 text-green-700'
-                              : 'bg-gray-200 text-gray-700'
-                          }`}>
+                          <span
+                            className={`inline-block px-2 sm:px-3 py-1 rounded-full text-xs font-semibold ${
+                              trip.status === 'Active'
+                                ? 'bg-green-100 text-green-700'
+                                : 'bg-gray-200 text-gray-700'
+                            }`}
+                          >
                             {trip.status}
                           </span>
                         </td>
-                        <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-900 text-xs sm:text-sm">{trip.fare}</td>
+                        <td className="py-2 sm:py-3 px-2 sm:px-3 md:px-4 font-semibold text-gray-900 text-xs sm:text-sm">
+                          {trip.fare}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -117,12 +148,18 @@ export default function Dashboard({ user, onNavigate }) {
                   >
                     <div className="flex justify-between items-start gap-2 mb-2">
                       <div className="min-w-0 flex-1">
-                        <p className="font-semibold text-gray-900 text-xs sm:text-sm truncate">{driver.name}</p>
+                        <p className="font-semibold text-gray-900 text-xs sm:text-sm truncate">
+                          {driver.name}
+                        </p>
                         <p className="text-xs text-gray-600">{driver.trips} trips</p>
                       </div>
-                      <p className="font-bold text-amber-500 text-xs sm:text-sm flex-shrink-0">{driver.rating}</p>
+                      <p className="font-bold text-amber-500 text-xs sm:text-sm flex-shrink-0">
+                        {driver.rating}
+                      </p>
                     </div>
-                    <p className="text-cyan-600 font-semibold text-xs sm:text-sm truncate">{driver.earnings}</p>
+                    <p className="text-cyan-600 font-semibold text-xs sm:text-sm truncate">
+                      {driver.earnings}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -133,13 +170,17 @@ export default function Dashboard({ user, onNavigate }) {
           <div className="bg-amber-50 border-l-4 border-amber-500 p-4 sm:p-5 md:p-6 rounded-lg flex gap-3 sm:gap-4">
             <span className="text-xl sm:text-2xl flex-shrink-0">⚠️</span>
             <div className="min-w-0">
-              <p className="font-semibold text-amber-900 text-xs sm:text-sm md:text-base">Maintenance Alert</p>
-              <p className="text-amber-800 text-xs sm:text-sm">3 vehicles due for maintenance in next 7 days. Schedule now to avoid downtime.</p>
+              <p className="font-semibold text-amber-900 text-xs sm:text-sm md:text-base">
+                Maintenance Alert
+              </p>
+              <p className="text-amber-800 text-xs sm:text-sm">
+                3 vehicles due for maintenance in next 7 days. Schedule now to avoid
+                downtime.
+              </p>
             </div>
           </div>
 
-          {/* Spacer */}
-          <div className="h-4"></div>
+          <div className="h-4" />
         </div>
       </div>
     </div>
