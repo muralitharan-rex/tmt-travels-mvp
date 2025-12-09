@@ -24,6 +24,10 @@ export default function App() {
     setUser(null)
   }
 
+  const goHome = () => {
+    setCurrentPage('dashboard')
+  }
+
   if (!isLoggedIn) {
     return <LoginPage onLogin={handleLogin} />
   }
@@ -94,6 +98,15 @@ export default function App() {
             >
               {sidebarOpen ? '◀' : '▶'}
             </button>
+
+            {/* HOME BUTTON */}
+            <button
+              onClick={goHome}
+              className="hidden sm:inline-flex items-center gap-1 px-3 py-2 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-lg text-xs font-semibold hover:bg-cyan-100 transition-colors flex-shrink-0"
+            >
+              🏠 Home
+            </button>
+
             <h2 className="text-base md:text-lg font-semibold text-gray-900 truncate">
               Welcome, {user?.name} 👋
             </h2>
