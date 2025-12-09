@@ -1,144 +1,11 @@
 import React from 'react'
 
-const styles = {
-  container: {
-    padding: '24px',
-    minHeight: '100vh',
-    background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
-    color: 'white',
-    overflowX: 'hidden'
-  },
-  header: {
-    marginBottom: '32px'
-  },
-  title: {
-    fontSize: 'clamp(28px, 5vw, 36px)',
-    fontWeight: 'bold',
-    margin: '0 0 8px 0',
-    background: 'linear-gradient(90deg, #06b6d4 0%, #14b8a6 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text'
-  },
-  subtitle: {
-    fontSize: '14px',
-    color: '#94a3b8',
-    margin: 0
-  },
-  statsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-    gap: '16px',
-    marginBottom: '32px'
-  },
-  statCard: {
-    background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-    padding: '20px',
-    borderRadius: '12px',
-    border: '1px solid #334155',
-    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)',
-    transition: 'all 0.3s ease',
-    cursor: 'pointer'
-  },
-  iconBox: (color) => ({
-    background: color,
-    padding: '12px',
-    borderRadius: '8px',
-    width: '56px',
-    height: '56px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '28px',
-    marginBottom: '16px',
-    boxShadow: `0 10px 20px -5px ${color}40`,
-    transition: 'transform 0.3s ease'
-  }),
-  statLabel: {
-    fontSize: '13px',
-    color: '#94a3b8',
-    marginBottom: '8px',
-    fontWeight: '600'
-  },
-  statValue: {
-    fontSize: 'clamp(24px, 4vw, 32px)',
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: '8px'
-  },
-  twoColumn: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-    gap: '16px',
-    marginBottom: '24px'
-  },
-  card: {
-    background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-    padding: '20px',
-    borderRadius: '12px',
-    border: '1px solid #334155',
-    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)',
-    overflow: 'auto',
-    scrollbarWidth: 'thin'
-  },
-  cardTitle: {
-    fontSize: '16px',
-    fontWeight: 'bold',
-    marginBottom: '16px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px'
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    fontSize: '13px'
-  },
-  tableHeader: {
-    borderBottom: '1px solid #334155',
-    textAlign: 'left'
-  },
-  tableHeaderCell: {
-    padding: '12px',
-    fontSize: '12px',
-    fontWeight: '600',
-    color: '#cbd5e1'
-  },
-  tableRow: {
-    borderBottom: '1px solid #334155',
-    transition: 'background 0.2s ease'
-  },
-  tableCell: {
-    padding: '12px',
-    fontSize: '13px',
-    color: '#e2e8f0'
-  },
-  driverCard: {
-    background: 'rgba(51, 65, 85, 0.3)',
-    padding: '16px',
-    borderRadius: '8px',
-    border: '1px solid #334155',
-    marginBottom: '12px',
-    transition: 'all 0.2s ease'
-  },
-  alertBox: {
-    background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.1) 0%, rgba(251, 146, 60, 0.1) 100%)',
-    border: '1px solid rgba(217, 119, 6, 0.3)',
-    padding: '16px',
-    borderRadius: '12px',
-    color: '#fed7aa',
-    display: 'flex',
-    alignItems: 'start',
-    gap: '12px'
-  }
-}
-
 export default function Dashboard({ user }) {
   const stats = [
-    { label: 'Today Trips', value: '87', icon: '🚕', color: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', trend: '+12%' },
-    { label: 'Active Drivers', value: '42', icon: '👨‍💼', color: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', trend: '+5%' },
-    { label: 'Revenue Today', value: '₹1,25,600', icon: '💰', color: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', trend: '+23%' },
-    { label: 'Pending Invoices', value: '12', icon: '📋', color: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', trend: '-8%' }
+    { label: 'Today Trips', value: '87', icon: '🚕', color: 'from-blue-500 to-blue-600', trend: '+12%' },
+    { label: 'Active Drivers', value: '42', icon: '👨‍💼', color: 'from-green-500 to-green-600', trend: '+5%' },
+    { label: 'Revenue Today', value: '₹1,25,600', icon: '💰', color: 'from-amber-500 to-amber-600', trend: '+23%' },
+    { label: 'Pending Invoices', value: '12', icon: '📋', color: 'from-red-500 to-red-600', trend: '-8%' }
   ]
 
   const recentTrips = [
@@ -155,88 +22,68 @@ export default function Dashboard({ user }) {
   ]
 
   return (
-    <div style={styles.container}>
+    <div className="p-8 space-y-8">
       {/* Header */}
-      <div style={styles.header}>
-        <h1 style={styles.title}>Dashboard</h1>
-        <p style={styles.subtitle}>Fleet Operations Overview & Analytics</p>
+      <div>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent mb-2">
+          Dashboard
+        </h1>
+        <p className="text-gray-600">Fleet Operations Overview & Analytics</p>
       </div>
 
-      {/* Stats Cards */}
-      <div style={styles.statsGrid}>
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
           <div
             key={stat.label}
-            style={styles.statCard}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px)'
-              e.currentTarget.style.borderColor = '#06b6d4'
-              e.currentTarget.style.boxShadow = '0 20px 35px -5px rgba(6, 182, 212, 0.2)'
-              const iconBox = e.currentTarget.querySelector('div')
-              if (iconBox) iconBox.style.transform = 'scale(1.1)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)'
-              e.currentTarget.style.borderColor = '#334155'
-              e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.3)'
-              const iconBox = e.currentTarget.querySelector('div')
-              if (iconBox) iconBox.style.transform = 'scale(1)'
-            }}
+            className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
           >
-            <div style={styles.iconBox(stat.color)}>{stat.icon}</div>
-            <div style={styles.statLabel}>{stat.label}</div>
-            <div style={styles.statValue}>{stat.value}</div>
-            <div style={{ fontSize: '12px', color: stat.trend.includes('+') ? '#86efac' : '#f87171', fontWeight: '600' }}>
-              {stat.trend}
+            <div className={`w-14 h-14 bg-gradient-to-br ${stat.color} rounded-lg flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform`}>
+              {stat.icon}
             </div>
+            <p className="text-sm font-medium text-gray-600 mb-1">{stat.label}</p>
+            <p className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</p>
+            <p className={`text-sm font-semibold ${stat.trend.includes('+') ? 'text-green-600' : 'text-red-600'}`}>
+              {stat.trend}
+            </p>
           </div>
         ))}
       </div>
 
       {/* Two Column Layout */}
-      <div style={styles.twoColumn}>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Trips */}
-        <div style={styles.card}>
-          <div style={styles.cardTitle}>📍 Recent Trips</div>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={styles.table}>
-              <thead style={styles.tableHeader}>
-                <tr>
-                  <th style={styles.tableHeaderCell}>Trip ID</th>
-                  <th style={styles.tableHeaderCell}>Company</th>
-                  <th style={styles.tableHeaderCell}>Driver</th>
-                  <th style={styles.tableHeaderCell}>Status</th>
-                  <th style={styles.tableHeaderCell}>Fare</th>
+        <div className="lg:col-span-2 bg-white rounded-xl shadow-md p-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            📍 Recent Trips
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Trip ID</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Company</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Driver</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Fare</th>
                 </tr>
               </thead>
               <tbody>
                 {recentTrips.map((trip) => (
-                  <tr
-                    key={trip.id}
-                    style={styles.tableRow}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(51, 65, 85, 0.2)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-                  >
-                    <td style={{...styles.tableCell, color: '#06b6d4', fontFamily: 'monospace', fontWeight: 'bold'}}>
-                      {trip.id}
-                    </td>
-                    <td style={styles.tableCell}>{trip.company}</td>
-                    <td style={styles.tableCell}>{trip.driver}</td>
-                    <td style={styles.tableCell}>
-                      <span style={{
-                        display: 'inline-block',
-                        padding: '4px 12px',
-                        borderRadius: '20px',
-                        fontSize: '12px',
-                        fontWeight: '600',
-                        background: trip.status === 'Active' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(100, 116, 139, 0.15)',
-                        color: trip.status === 'Active' ? '#86efac' : '#cbd5e1',
-                        border: trip.status === 'Active' ? '1px solid #22c55e' : '1px solid #64748b'
-                      }}>
+                  <tr key={trip.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                    <td className="py-3 px-4 font-mono text-cyan-600 font-semibold">{trip.id}</td>
+                    <td className="py-3 px-4 text-gray-900">{trip.company}</td>
+                    <td className="py-3 px-4 text-gray-900">{trip.driver}</td>
+                    <td className="py-3 px-4">
+                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                        trip.status === 'Active'
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-gray-200 text-gray-700'
+                      }`}>
                         {trip.status}
                       </span>
                     </td>
-                    <td style={{...styles.tableCell, fontWeight: 'bold'}}>{trip.fare}</td>
+                    <td className="py-3 px-4 font-semibold text-gray-900">{trip.fare}</td>
                   </tr>
                 ))}
               </tbody>
@@ -245,30 +92,24 @@ export default function Dashboard({ user }) {
         </div>
 
         {/* Top Drivers */}
-        <div style={styles.card}>
-          <div style={styles.cardTitle}>👑 Top Drivers</div>
-          <div>
+        <div className="bg-white rounded-xl shadow-md p-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            👑 Top Drivers
+          </h2>
+          <div className="space-y-4">
             {topDrivers.map((driver, idx) => (
               <div
                 key={idx}
-                style={styles.driverCard}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#06b6d4'
-                  e.currentTarget.style.background = 'rgba(6, 182, 212, 0.05)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#334155'
-                  e.currentTarget.style.background = 'rgba(51, 65, 85, 0.3)'
-                }}
+                className="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg hover:shadow-md transition-all hover:from-cyan-50 hover:to-teal-50"
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '8px' }}>
+                <div className="flex justify-between items-start mb-2">
                   <div>
-                    <div style={{ fontWeight: '600', color: 'white' }}>{driver.name}</div>
-                    <div style={{ fontSize: '12px', color: '#94a3b8' }}>{driver.trips} trips</div>
+                    <p className="font-semibold text-gray-900">{driver.name}</p>
+                    <p className="text-xs text-gray-600">{driver.trips} trips</p>
                   </div>
-                  <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#fbbf24' }}>{driver.rating}</div>
+                  <p className="font-bold text-amber-500">{driver.rating}</p>
                 </div>
-                <div style={{ fontSize: '13px', color: '#06b6d4', fontWeight: '600' }}>{driver.earnings}</div>
+                <p className="text-cyan-600 font-semibold">{driver.earnings}</p>
               </div>
             ))}
           </div>
@@ -276,20 +117,13 @@ export default function Dashboard({ user }) {
       </div>
 
       {/* Alert */}
-      <div style={styles.alertBox}>
-        <span style={{ fontSize: '18px' }}>⚠️</span>
+      <div className="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-lg flex gap-4">
+        <span className="text-2xl">⚠️</span>
         <div>
-          <strong>Maintenance Alert:</strong> 3 vehicles due for maintenance in next 7 days. Schedule now to avoid downtime.
+          <p className="font-semibold text-amber-900">Maintenance Alert</p>
+          <p className="text-amber-800">3 vehicles due for maintenance in next 7 days. Schedule now to avoid downtime.</p>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          div[style*="gridTemplateColumns"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </div>
   )
 }
