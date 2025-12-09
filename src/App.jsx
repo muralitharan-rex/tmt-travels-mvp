@@ -105,7 +105,7 @@ export default function App() {
 
         {/* Content Area - Fully responsive */}
         <div className="flex-1 w-full min-w-0 overflow-y-auto overflow-x-hidden bg-gray-50">
-          {currentPage === 'dashboard' && <Dashboard user={user} />}
+          {currentPage === 'dashboard' && <Dashboard user={user} onNavigate={setCurrentPage} />}
           {currentPage === 'newbooking' && <NewBooking />}
           {currentPage === 'activetrips' && <ActiveTrips />}
           {currentPage === 'drivers' && <DriverList />}
