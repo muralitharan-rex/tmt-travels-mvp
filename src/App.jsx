@@ -10,7 +10,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [currentPage, setCurrentPage] = useState('login')
   const [user, setUser] = useState(null)
-  const [sidebarOpen, setSidebarOpen] = useState(false) // mobile default closed
+  const [sidebarOpen, setSidebarOpen] = useState(false) // false = hidden on desktop + mobile
 
   const handleLogin = (userData) => {
     setUser(userData)
@@ -42,13 +42,20 @@ export default function App() {
 
   const handleNavClick = (id) => {
     setCurrentPage(id)
-    setSidebarOpen(false) // close on mobile after navigation
+    // mobile: close overlay after navigation
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false)
+    }
   }
 
   return (
     <div className="h-screen w-screen bg-gray-50 overflow-hidden flex">
-      {/* Desktop sidebar (md and up) */}
-      <div className="hidden md:flex md:w-64 bg-white border-r border-gray-200 shadow-lg flex-col overflow-y-auto">
+      {/* Desktop sidebar (md and up) – controlled by sidebarOpen */}
+      <div
+        className={`${
+          sidebarOpen ? 'hidden' : 'hidden md:flex'
+        } md:w-64 bg-white border-r border-gray-200 shadow-lg flex-col overflow-y-auto`}
+      >
         {/* Logo */}
         <div className="flex items-center gap-3 p-6 border-b border-gray-200">
           <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
@@ -88,7 +95,7 @@ export default function App() {
         </button>
       </div>
 
-      {/* Mobile sidebar overlay (below md) */}
+      {/* Mobile sidebar overlay (always uses sidebarOpen on < md) */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-40 flex md:hidden">
           {/* Backdrop */}
@@ -152,19 +159,14 @@ export default function App() {
         {/* Top bar */}
         <div className="bg-white border-b border-gray-200 px-3 sm:px-4 md:px-8 py-3 md:py-4 shadow-sm flex items-center justify-between gap-3 flex-shrink-0">
           <div className="flex items-center gap-2 md:gap-4 min-w-0">
-            {/* Sandwich button only on mobile */}
+            {/* Sandwich button desktop + mobile */}
             <button
-              onClick={() => setSidebarOpen(true)}
-              className="inline-flex md:hidden items-center justify-center text-gray-700 hover:bg-gray-100 rounded-lg p-2"
-              title="Open menu"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="inline-flex items-center justify-center text-gray-700 hover:bg-gray-100 rounded-lg p-2"
+              title="Toggle menu"
             >
-              ☰
+              {sidebarOpen ? '✕' : '☰'}
             </button>
-
-            {/* (Optional) compact icon on desktop in place of old arrow */}
-            <div className="hidden md:flex items-center justify-center text-gray-400">
-              📋
-            </div>
 
             {/* Home button */}
             <button
